@@ -1,5 +1,6 @@
 <?php
-echo sprintf("%02X",255);
+echo time();
+//echo sprintf("%02X",255);
 //echo sprintf("%04X",65535);
 //echo sprintf("%04X",rand(0,65535));
 /*

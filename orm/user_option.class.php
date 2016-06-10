@@ -10,7 +10,7 @@ class user_option{
     }
 
     function insert(){        
-        $q = sprintf("INSERT INTO ".$this->table." (id, alert_optout) VALUES (%d,'%s');", 		
+        $q = sprintf("INSERT INTO ".$this->table." (user_id, alert_optout) VALUES (%d,'%s');", 		
             $this->user_id, 
             $this->alert_optout
         );
