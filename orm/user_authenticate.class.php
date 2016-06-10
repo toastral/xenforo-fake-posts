@@ -8,33 +8,34 @@ class user_authenticate extends db{
     public $table = 'xf_user_authenticate';
     
 	function __construct(){
-		parent::__construct();
+        parent::__construct();
         $this->data = $this->randHex40byte().$this->randHex40byte().$this->randHex5byte();
         $this->remember_key=$this->randHex40byte();
 	}
     
     function insert(){
-		$q = sprintf("INSERT INTO ".$this->table." (user_id, scheme_class, data, remember_key) VALUES (%d,'%s','%040X','%085X');", 		
-			$this->user_id, 
-			$this->scheme_class, 
-			$this->data,
-			$this->remember_key
-		);
+        $q = sprintf("INSERT INTO ".$this->table." (user_id, scheme_class, data, remember_key) VALUES (%d,'%s','%040X','%085X');", 		
+            $this->user_id, 
+            $this->scheme_class, 
+            $this->data,
+            $this->remember_key
+        );
         
-		if(!$this->$mysqli->query($q)){
-			echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
-		}
+        if(!$this->$mysqli->query($q)){
+            echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
     }
-
+    
     function randHex5byte(){
         return sprintf("%04X%04X%02X",rand(0,65535),rand(0,65535),rand(0,255));
     }
+    
     function randHex8byte(){
         return sprintf("%04X%04X%04X%04X",rand(0,65535),rand(0,65535),rand(0,65535),rand(0,65535));
     }
+    
     function randHex40byte(){
         return $this->randHex8byte().$this->randHex8byte().$this->randHex8byte().$this->randHex8byte().$this->randHex8byte();
     }
-    
 }
 ?>
