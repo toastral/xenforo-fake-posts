@@ -1,5 +1,5 @@
 <?php
-class user_option{	
+class UserOption extends DB{	
     public $user_id;
     public $alert_optout='';
 
@@ -15,9 +15,7 @@ class user_option{
             $this->alert_optout
         );
 
-        if(!$this->$mysqli->query($q)){
-            echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
+        $this->query($q);
     }
 }
 ?>

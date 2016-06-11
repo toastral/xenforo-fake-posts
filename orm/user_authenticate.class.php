@@ -1,5 +1,5 @@
 <?php
-class user_authenticate extends db{
+class UserAuthenticate extends DB{
     public $user_id;
     public $scheme_class = 'XenForo_Authentication_Core12';
     public $data;
@@ -14,16 +14,14 @@ class user_authenticate extends db{
 	}
     
     function insert(){
-        $q = sprintf("INSERT INTO ".$this->table." (user_id, scheme_class, data, remember_key) VALUES (%d,'%s','%040X','%085X');", 		
+        $q = sprintf("INSERT INTO ".$this->table." (user_id, scheme_class, data, remember_key) VALUES (%d,'%s', 0x%s, 0x%s);", 		
             $this->user_id, 
             $this->scheme_class, 
             $this->data,
             $this->remember_key
         );
         
-        if(!$this->$mysqli->query($q)){
-            echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
+        $this->query($q);
     }
     
     function randHex5byte(){

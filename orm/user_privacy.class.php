@@ -1,5 +1,5 @@
 <?php
-class user_privacy extends db{
+class UserPrivacy extends DB{
     public $user_id;
     public $allow_post_profile = 'members';
     public $allow_send_personal_conversation='members';
@@ -17,9 +17,7 @@ class user_privacy extends db{
             $this->allow_send_personal_conversation
         );
 
-        if(!$this->$mysqli->query($q)){
-            echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
+        $this->query($q);
     }
 }
 ?>

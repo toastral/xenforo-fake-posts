@@ -1,5 +1,5 @@
 <?php
-class user_profile extends db{
+class UserProfile extends DB{
     public $user_id;
     public $dob_day='0';
     public $dob_month='0';
@@ -12,7 +12,7 @@ class user_profile extends db{
     public $ignored='';
     public $csrf_token;
     public $about='';
-    public $custom_fields=0x613A303A7B7D;
+    public $custom_fields='0x613A303A7B7D';
     public $password_date;
 
     public $table = 'xf_user_profile';
@@ -42,7 +42,7 @@ class user_profile extends db{
         about,
         custom_fields,
         password_date
-        ) VALUES (%d,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',%d );",	
+        ) VALUES (%d,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s', %s, %d );",	
             $this->user_id, 
             $this->dob_day,
             $this->dob_month,
@@ -59,9 +59,7 @@ class user_profile extends db{
             $this->password_date
         );
         
-        if(!$this->$mysqli->query($q)){
-            echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
+        $this->query($q);
     }
 }
 ?>

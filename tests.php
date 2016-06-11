@@ -1,5 +1,39 @@
 <?php
-echo time();
+include 'db.class.php';
+$scanned_directory = array_diff(scandir('orm'), array('..', '.'));
+while($file = array_pop($scanned_directory)) include 'orm/'.$file;
+
+$User = new User();
+$User->username = 'test1';
+$User->validateUserName();
+$User->email = $User->username.'@google.com';
+//$User->insert();
+$User->user_id = 14;
+
+$UserAuthenticate = new UserAuthenticate();
+$UserAuthenticate->user_id = $User->user_id;
+//$UserAuthenticate->insert();
+
+$UserGroupRelation = new UserGroupRelation();
+$UserGroupRelation->user_id = $User->user_id;
+//$UserGroupRelation->insert();
+
+$UserOption = new UserOption();
+$UserOption->user_id = $User->user_id;
+//$UserOption->insert();
+
+$UserPrivacy = new UserPrivacy();
+$UserPrivacy->user_id = $User->user_id;
+//$UserPrivacy->insert();
+
+$UserProfile = new UserProfile();
+$UserProfile->location = 'Gonduras';
+$UserProfile->signature = 'Smile now - cry later';
+$UserProfile->user_id = $User->user_id;
+$UserProfile->insert();
+
+
+
 //echo sprintf("%02X",255);
 //echo sprintf("%04X",65535);
 //echo sprintf("%04X",rand(0,65535));

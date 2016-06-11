@@ -1,5 +1,5 @@
 <?php
-class user_group_relation extends db{
+class UserGroupRelation extends DB{
     public $user_id;
     public $user_group_id = 2;
     public $is_primary = 1;
@@ -17,9 +17,7 @@ class user_group_relation extends db{
             $this->is_primary
         );
 
-        if(!$this->$mysqli->query($q)){
-            echo "Mysql failure: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
+        $this->query($q);
     }
 }
 ?>
