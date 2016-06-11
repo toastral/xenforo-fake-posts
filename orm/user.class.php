@@ -79,5 +79,10 @@ class User extends DB{
             $this->validateUserName();
         }
     }
+    
+    function updateTrophyPoints($points=1){
+        $q = "UPDATE ".$this->table." SET trophy_points='".$points."' WHERE user_id=".$this->user_id;
+        $this->query($q);
+    }
 }
 ?>

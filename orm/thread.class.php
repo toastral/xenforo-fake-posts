@@ -1,26 +1,26 @@
 <?php
 class Thread extends DB{
-(
-  `thread_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `node_id` int(10) unsigned NOT NULL,
-  `title` varchar(150) NOT NULL,
-  `reply_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `view_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(10) unsigned NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `post_date` int(10) unsigned NOT NULL,
-  `sticky` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `discussion_state` enum('visible','moderated','deleted') NOT NULL DEFAULT 'visible',
-  `discussion_open` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `discussion_type` varchar(25) NOT NULL DEFAULT '',
-  `first_post_id` int(10) unsigned NOT NULL,
-  `first_post_likes` int(10) unsigned NOT NULL DEFAULT '0',
-  `last_post_date` int(10) unsigned NOT NULL,
-  `last_post_id` int(10) unsigned NOT NULL,
-  `last_post_user_id` int(10) unsigned NOT NULL,
-  `last_post_username` varchar(50) NOT NULL,
-  `prefix_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `tags` mediumblob NOT NULL,
+
+    public $thread_id; // int(10) unsigned NOT NULL AUTO_INCREMENT, 
+    public $node_id; // int(10) unsigned NOT NULL,
+    public $title; // varchar(150) NOT NULL,
+    public $reply_count; // int(10) unsigned NOT NULL DEFAULT '0',
+    public $view_count; // int(10) unsigned NOT NULL DEFAULT '0',
+    public $user_id; // int(10) unsigned NOT NULL,
+    public $username; // varchar(50) NOT NULL,
+    public $post_date; // int(10) unsigned NOT NULL,
+    public $sticky; // tinyint(3) unsigned NOT NULL DEFAULT '0',
+    public $discussion_state; // enum('visible','moderated','deleted') NOT NULL DEFAULT 'visible',
+    public $discussion_open; // tinyint(3) unsigned NOT NULL DEFAULT '1',
+    public $discussion_type; // varchar(25) NOT NULL DEFAULT '',
+    public $first_post_id; // int(10) unsigned NOT NULL,
+    public $first_post_likes; // int(10) unsigned NOT NULL DEFAULT '0',
+    public $last_post_date; // int(10) unsigned NOT NULL,
+    public $last_post_id; // int(10) unsigned NOT NULL,
+    public $last_post_user_id; // int(10) unsigned NOT NULL,
+    public $last_post_username; // varchar(50) NOT NULL,
+    public $prefix_id; // int(10) unsigned NOT NULL DEFAULT '0',
+    public $tags; // mediumblob NOT NULL,
 
     public $table = 'xf_thread';
 
@@ -28,6 +28,52 @@ class Thread extends DB{
         parent::__construct();
     }
     
+    function insert(){
+        $q = sprintf("INSERT INTO ".$this->table." (
+            node_id,
+            title,
+            reply_count,
+            view_count,
+            user_id,
+            username,
+            post_date,
+            sticky,
+            discussion_state,
+            discussion_open,
+            discussion_type,
+            first_post_id,
+            first_post_likes,
+            last_post_date,
+            last_post_id,
+            last_post_user_id,
+            last_post_username,
+            prefix_id,
+            tags
+        ) VALUES (%d,'%s',%d,%d,%d,'%s',%d,%d,'%s',%d,'%s',%d,%d,%d,%d,%d,'%s',%d,%s);",	
+            $this->node_id,
+            $this->title,
+            $this->reply_count,
+            $this->view_count,
+            $this->user_id,
+            $this->username,
+            $this->post_date,
+            $this->sticky,
+            $this->discussion_state,
+            $this->discussion_open,
+            $this->discussion_type,
+            $this->first_post_id,
+            $this->first_post_likes,
+            $this->last_post_date,
+            $this->last_post_id,
+            $this->last_post_user_id,
+            $this->last_post_username,
+            $this->prefix_id,
+            $this->tags
+        );
+        
+        $this->query($q);
+        $this->thread_id = mysqli_insert_id($this->db);
+    }
 }
 
 

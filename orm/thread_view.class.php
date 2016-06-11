@@ -9,6 +9,14 @@ class ThreadView extends DB{
         parent::__construct();
     }
     
+    function insert(){
+        $q = sprintf("INSERT INTO ".$this->table." (
+            thread_id
+        ) VALUES (%d);",
+            $this->thread_id
+        );
+        $this->query($q);
+    }
 }
 
 

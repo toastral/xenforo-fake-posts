@@ -1,28 +1,66 @@
 <?php
 class Post extends DB{
-
-  `post_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `thread_id` int(10) unsigned NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `post_date` int(10) unsigned NOT NULL,
-  `message` mediumtext NOT NULL,
-  `ip_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `message_state` enum('visible','moderated','deleted') NOT NULL DEFAULT 'visible',
-  `attach_count` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `position` int(10) unsigned NOT NULL,
-  `likes` int(10) unsigned NOT NULL DEFAULT '0',
-  `like_users` blob NOT NULL,
-  `warning_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `warning_message` varchar(255) NOT NULL DEFAULT '',
-  `last_edit_date` int(10) unsigned NOT NULL DEFAULT '0',
-  `last_edit_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `edit_count` int(10) unsigned NOT NULL DEFAULT '0',
+    public $post_id; // int(10) unsigned NOT NULL AUTO_INCREMENT,
+    public $thread_id;
+    public $user_id;
+    public $username;
+    public $post_date; // int(10) unsigned NOT NULL,
+    public $message; // mediumtext NOT NULL,
+    public $ip_id='0';
+    public $message_state='visible';
+    public $attach_count='0';
+    public $position; // int(10) unsigned NOT NULL,
+    public $likes='0';
+    public $like_users; // blob NOT NULL,
+    public $warning_id='0';
+    public $warning_message='';
+    public $last_edit_date='0';
+    public $last_edit_user_id='0';
+    public $edit_count='0';
 
     public $table = 'xf_post';
 
     function __construct(){
         parent::__construct();
+    }
+    function insert(){
+        $q = sprintf("INSERT INTO ".$this->table." (
+            thread_id,
+            user_id,
+            username,
+            post_date,
+            message,
+            ip_id,
+            message_state,
+            attach_count,
+            position,
+            likes,
+            like_users,
+            warning_id,
+            warning_message,
+            last_edit_date,
+            last_edit_user_id,
+            edit_count
+        ) VALUES (%d,%d,'%s',%d,'%s',%d,'%s',%d,%d,%d,%s,%d,'%s',%d,%d,%d);",	
+            $this->thread_id,
+            $this->user_id,
+            $this->username,
+            $this->post_date,
+            $this->message,
+            $this->ip_id,
+            $this->message_state,
+            $this->attach_count,
+            $this->position,
+            $this->likes,
+            $this->like_users,
+            $this->warning_id,
+            $this->warning_message,
+            $this->last_edit_date,
+            $this->last_edit_user_id,
+            $this->edit_count
+        );
+        $this->query($q);
+        $this->post_id = mysqli_insert_id($this->db);
     }
     
 }

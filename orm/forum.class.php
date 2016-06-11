@@ -1,35 +1,84 @@
 <?php
 class Forum extends DB{
-    
-CREATE TABLE `xf_forum` (
-  `node_id` int(10) unsigned NOT NULL,
-  `discussion_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `message_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `last_post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Most recent post_id',
-  `last_post_date` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Date of most recent post',
-  `last_post_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User_id of user posting most recently',
-  `last_post_username` varchar(50) NOT NULL DEFAULT '' COMMENT 'Username of most recently-posting user',
-  `last_thread_title` varchar(150) NOT NULL DEFAULT '' COMMENT 'Title of thread most recent post is in',
-  `moderate_threads` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `moderate_replies` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `allow_posting` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `allow_poll` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `count_messages` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'If not set, messages posted (directly) within this forum will not contribute to user message totals.',
-  `find_new` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Include posts from this forum when running /find-new/threads',
-  `prefix_cache` mediumblob NOT NULL COMMENT 'Serialized data from xf_forum_prefix, [group_id][prefix_id] => prefix_id',
-  `default_prefix_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `default_sort_order` varchar(25) NOT NULL DEFAULT 'last_post_date',
-  `default_sort_direction` varchar(5) NOT NULL DEFAULT 'desc',
-  `list_date_limit_days` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `require_prefix` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `allowed_watch_notifications` varchar(10) NOT NULL DEFAULT 'all',
-  `min_tags` smallint(5) unsigned NOT NULL DEFAULT '0',
-  
+    public $node_id; //  int(10) unsigned NOT NULL, PRIMARY KEY (`node_id`) 
+    public $discussion_count='0';
+    public $message_count='0';
+    public $last_post_id='0'; //'Most recent post_id',
+    public $last_post_date='0'; // 'Date of most recent post',
+    public $last_post_user_id='0';// 'User_id of user posting most recently',
+    public $last_post_username=''; // 'Username of most recently-posting user',
+    public $last_thread_title=''; // 'Title of thread most recent post is in',
+    public $moderate_threads='0';
+    public $moderate_replies='0';
+    public $allow_posting='1';
+    public $allow_poll='1';
+    public $count_messages='1'; // 'If not set, messages posted (directly) within this forum will not contribute to user message totals.',
+    public $find_new='1'; // 'Include posts from this forum when running /find-new/threads',
+    public $prefix_cache=''; // mediumblob NOT NULL COMMENT 'Serialized data from xf_forum_prefix, [group_id][prefix_id] => prefix_id',
+    public $default_prefix_id='0';
+    public $default_sort_order='last_post_date';
+    public $default_sort_direction='desc';
+    public $list_date_limit_days='0';
+    public $require_prefix='0';
+    public $allowed_watch_notifications='all';
+    public $min_tags='0';
+
     public $table = 'xf_forum';
 
     function __construct(){
         parent::__construct();
     }
+    
+    function insert(){
+        $q = sprintf("INSERT INTO ".$this->table." (
+            node_id,
+            discussion_count,
+            message_count,
+            last_post_id,
+            last_post_date,
+            last_post_user_id,
+            last_post_username,
+            last_thread_title,
+            moderate_threads,
+            moderate_replies,
+            allow_posting,
+            allow_poll,
+            count_messages,
+            find_new,
+            prefix_cache,
+            default_prefix_id,
+            default_sort_order,
+            default_sort_direction,
+            list_date_limit_days,
+            require_prefix,
+            allowed_watch_notifications,
+            min_tags
+        ) VALUES (%d,%d,%d,%d,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%s,%d,'%s','%s',%d,%d,'%s',%d);",	
+            $this->node_id,
+            $this->discussion_count,
+            $this->message_count,
+            $this->last_post_id,
+            $this->last_post_date,
+            $this->last_post_user_id,
+            $this->last_post_username,
+            $this->last_thread_title,
+            $this->moderate_threads,
+            $this->moderate_replies,
+            $this->allow_posting,
+            $this->allow_poll,
+            $this->count_messages,
+            $this->find_new,
+            $this->prefix_cache,
+            $this->default_prefix_id,
+            $this->default_sort_order,
+            $this->default_sort_direction,
+            $this->list_date_limit_days,
+            $this->require_prefix,
+            $this->allowed_watch_notifications,
+            $this->min_tags
+        );
+        $this->query($q);
+    }  
     
 }
 ?>
