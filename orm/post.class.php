@@ -19,6 +19,8 @@ class Post extends DB{
     public $edit_count='0';
 
     public $table = 'xf_post';
+    
+//(1,1,2,'user1',1465551343,'This is content of first theme. [B]This is content of first theme[/B].\nThis is content of first theme.',4,'visible',0,0,0,'a:0:{}',0,'',0,0,0);
 
     function __construct(){
         parent::__construct();

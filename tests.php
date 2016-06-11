@@ -2,7 +2,9 @@
 include 'db.class.php';
 $scanned_directory = array_diff(scandir('orm'), array('..', '.'));
 while($file = array_pop($scanned_directory)) include 'orm/'.$file;
+include 'fakeuser.class.php';
 
+/*
 $User = new User();
 $User->username = 'test1';
 $User->validateUserName();
@@ -31,6 +33,26 @@ $UserProfile->location = 'Gonduras';
 $UserProfile->signature = 'Smile now - cry later';
 $UserProfile->user_id = $User->user_id;
 $UserProfile->insert();
+*/
+
+/*
+$FakeUser = new FakeUser();
+$FakeUser->username = 'heyhey';
+$FakeUser->location = 'Tagangog';
+$FakeUser->signature = 'I ll be back';
+$FakeUser->create();
+*/
+
+
+//$User = new User();
+//$User->user_id = 4;
+//$User->incrementTrophyPoints();
+
+
+$User = new User();
+$User->user_id = 4;
+$User->fetch();
+print_r($User);
 
 
 

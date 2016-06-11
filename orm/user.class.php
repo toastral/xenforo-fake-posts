@@ -79,10 +79,35 @@ class User extends DB{
             $this->validateUserName();
         }
     }
+    function incrementTrophyPoints($points=1){
+        $q = "SELECT trophy_points FROM ".$this->table." WHERE user_id=".$this->user_id;
+        $res = $this->query($q);
+        $row = $res->fetch_assoc();
+        $trophy_points = intval($row['trophy_points'])+1;
+        $this->updateTrophyPoints($trophy_points);
+    }
     
     function updateTrophyPoints($points=1){
         $q = "UPDATE ".$this->table." SET trophy_points='".$points."' WHERE user_id=".$this->user_id;
         $this->query($q);
+    }
+    
+    function fetch(){
+        $q = "SELECT * FROM ".$this->table." WHERE user_id='".$this->user_id."'";
+        $res = $this->query($q);
+        $row = $res->fetch_assoc();
+        $this->username = $row['username'];
+        $this->email = $row['email'];
+        $this->gender = $row['gender'];
+        $this->language_id = $row['language_id'];
+        $this->style_id = $row['style_id'];
+        $this->timezone = $row['timezone'];
+        $this->user_group_id = $row['user_group_id'];
+        $this->secondary_group_ids = $row['secondary_group_ids'];
+        $this->display_style_group_id = $row['display_style_group_id'];
+        $this->permission_combination_id = $row['permission_combination_id'];
+        $this->register_date = $row['register_date'];
+        $this->last_activity = $row['last_activity'];
     }
 }
 ?>

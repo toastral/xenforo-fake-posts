@@ -23,6 +23,10 @@ class Forum extends DB{
     public $allowed_watch_notifications='all';
     public $min_tags='0';
 
+/*
+(5,0,0,0,0,0,'','',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);
+(5,1,1,1,1465551343,2,'user1','This is first theme',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);    
+*/
     public $table = 'xf_forum';
 
     function __construct(){

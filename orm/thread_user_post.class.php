@@ -5,6 +5,7 @@ class ThreadUserPost extends DB{
     public $post_count; // int(10) unsigned NOT NULL,
   
     public $table = 'xf_thread_user_post';
+    
     function __construct(){
         parent::__construct();
     }
