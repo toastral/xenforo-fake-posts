@@ -12,6 +12,8 @@ class SearchIndex extends DB{
   
     public $table = 'xf_search_index';
 
+
+    
     function __construct(){
         parent::__construct();
     }

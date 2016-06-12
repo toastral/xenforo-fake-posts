@@ -72,7 +72,7 @@ class Post extends DB{
         $res = $this->query($q);
         $row = $res->fetch_assoc();
         return intval($row['c_thread']);
-    }    
+    }
     
 }
 ?>

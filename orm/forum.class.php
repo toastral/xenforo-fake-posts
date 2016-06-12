@@ -25,8 +25,25 @@ class Forum extends DB{
 
 /*
 (5,0,0,0,0,0,'','',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);
-(5,1,1,1,1465551343,2,'user1','This is first theme',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);    
+(5,1,1,1,1465551343,2,'user1','This is first theme',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);  
 */
+
+
+    function updateAfterThreadCreate($node_id, $discussion_count, $message_count, $last_post_id, $last_post_date, $last_thread_title, $User){
+        $q = "UPDATE ".$this->table." SET 
+        discussion_count = ".$discussion_count.", 
+        message_count = ".$message_count.", 
+        last_post_id = ".$last_post_id.", 
+        last_post_date = ".$last_post_date.", 
+        last_post_user_id = ".$User->user_id.", 
+        last_post_username = '".$User->username."', 
+        last_thread_title = '".$last_thread_title."' 
+        WHERE node_id=".$this->node_id.";";
+print_r($q);        
+        $this->query($q);
+    } 
+
+
     public $table = 'xf_forum';
 
     function __construct(){
@@ -84,5 +101,31 @@ class Forum extends DB{
         $this->query($q);
     }  
     
+    function fetch(){
+        $q = "SELECT * FROM ".$this->table." WHERE node_id='".$this->node_id."'";
+        $res = $this->query($q);
+        $row = $res->fetch_assoc();
+        $this->discussion_count = $row['discussion_count'];
+        $this->message_count = $row['message_count'];
+        $this->last_post_id = $row['last_post_id'];
+        $this->last_post_date = $row['last_post_date'];
+        $this->last_post_user_id = $row['last_post_user_id'];
+        $this->last_post_username = $row['last_post_username'];
+        $this->last_thread_title = $row['last_thread_title'];
+        $this->moderate_threads = $row['moderate_threads'];
+        $this->moderate_replies = $row['moderate_replies'];
+        $this->allow_posting = $row['allow_posting'];
+        $this->allow_poll = $row['allow_poll'];
+        $this->count_messages = $row['count_messages'];
+        $this->find_new = $row['find_new'];
+        $this->prefix_cache = $row['prefix_cache'];
+        $this->default_prefix_id = $row['default_prefix_id'];
+        $this->default_sort_order = $row['default_sort_order'];
+        $this->default_sort_direction = $row['default_sort_direction'];      
+        $this->list_date_limit_days = $row['list_date_limit_days'];
+        $this->require_prefix = $row['require_prefix'];
+        $this->allowed_watch_notifications = $row['allowed_watch_notifications'];
+        $this->min_tags = $row['min_tags'];
+    }   
 }
 ?>
