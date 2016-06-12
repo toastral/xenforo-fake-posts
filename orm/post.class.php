@@ -17,7 +17,7 @@ class Post extends DB{
     public $last_edit_date='0';
     public $last_edit_user_id='0';
     public $edit_count='0';
-
+    
     public $table = 'xf_post';
     
     function __construct(){

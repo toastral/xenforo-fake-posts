@@ -109,5 +109,19 @@ class User extends DB{
         $this->register_date = $row['register_date'];
         $this->last_activity = $row['last_activity'];
     }
+
+    function incrementMessageCount(){
+        $q = "SELECT message_count FROM ".$this->table." WHERE user_id=".$this->user_id.";";
+        $res = $this->query($q);
+        if($res->num_rows){
+            $row = $res->fetch_assoc();
+            $message_count = intval($row['message_count']);
+            $message_count++;
+            $q = "UPDATE ".$this->table." SET message_count=".$message_count." WHERE user_id=".$this->user_id.";";
+            $this->query($q);
+        }else{
+            throw new Exception('Not found message_count by user_id: '.$q); 
+        }
+    }    
 }
 ?>

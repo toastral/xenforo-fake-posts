@@ -23,27 +23,6 @@ class Forum extends DB{
     public $allowed_watch_notifications='all';
     public $min_tags='0';
 
-/*
-(5,0,0,0,0,0,'','',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);
-(5,1,1,1,1465551343,2,'user1','This is first theme',0,0,1,1,1,1,'',0,'last_post_date','desc',0,0,'all',0);  
-*/
-
-
-    function updateAfterThreadCreate($node_id, $discussion_count, $message_count, $last_post_id, $last_post_date, $last_thread_title, $User){
-        $q = "UPDATE ".$this->table." SET 
-        discussion_count = ".$discussion_count.", 
-        message_count = ".$message_count.", 
-        last_post_id = ".$last_post_id.", 
-        last_post_date = ".$last_post_date.", 
-        last_post_user_id = ".$User->user_id.", 
-        last_post_username = '".$User->username."', 
-        last_thread_title = '".$last_thread_title."' 
-        WHERE node_id=".$this->node_id.";";
-print_r($q);        
-        $this->query($q);
-    } 
-
-
     public $table = 'xf_forum';
 
     function __construct(){
@@ -126,6 +105,43 @@ print_r($q);
         $this->require_prefix = $row['require_prefix'];
         $this->allowed_watch_notifications = $row['allowed_watch_notifications'];
         $this->min_tags = $row['min_tags'];
-    }   
+    } 
+    
+    function updateAfterThreadCreate($discussion_count, $message_count, $last_post_id, $last_post_date, $last_thread_title, $User){
+        $q = "UPDATE ".$this->table." SET 
+        discussion_count = ".$discussion_count.", 
+        message_count = ".$message_count.", 
+        last_post_id = ".$last_post_id.", 
+        last_post_date = ".$last_post_date.", 
+        last_post_user_id = ".$User->user_id.", 
+        last_post_username = '".$User->username."', 
+        last_thread_title = '".$last_thread_title."' 
+        WHERE node_id=".$this->node_id.";";     
+        $this->query($q);
+    }
+    
+    function updateAfterPostCreate($message_count, $last_post_id, $last_post_date, $last_thread_title, $User){
+        $q = "UPDATE ".$this->table." SET 
+        message_count = ".$message_count.", 
+        last_post_id = ".$last_post_id.", 
+        last_post_date = ".$last_post_date.", 
+        last_post_user_id = ".$User->user_id.", 
+        last_post_username = '".$User->username."', 
+        last_thread_title = '".$last_thread_title."' 
+        WHERE node_id=".$this->node_id.";";     
+        $this->query($q);
+    }
+    
+    function getNodeIdAndTitle(){
+        $q = "SELECT node_id, title FROM xf_node WHERE node_type_id=0x466F72756D ;";
+        $res = $this->query($q);
+        $a_forums = array();
+        while($row = $res->fetch_assoc()){
+            $a_forums[] = $row;
+        }
+        return $a_forums;
+    }
+    
+    
 }
 ?>

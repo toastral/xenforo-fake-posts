@@ -7,7 +7,7 @@ class FakeThread{
     public $message;
     public $post_date;
 
-    public $thread_id;
+    public $thread_id = 0;
     
     function create(){
         $User = new User();
@@ -28,8 +28,9 @@ class FakeThread{
         $this->_insertThreadToSearchIndex($this->title, $this->user_id, $this->post_date, $this->thread_id, $this->node_id);
         
         $ThreadUserPost = new ThreadUserPost();
-        $ThreadUserPost->incrementCount($this->thread_id, $this->user_id);
+        $ThreadUserPost->incrementPostCount($this->thread_id, $this->user_id);
         
+        $User->incrementMessageCount();
     }
     
     function _insertPostToSearchIndex($post_id, $title, $message, $user_id, $post_date, $thread_id, $node_id){
@@ -64,7 +65,7 @@ class FakeThread{
         $Forum->fetch();
         $Forum->discussion_count = intval($Forum->discussion_count);
         $Forum->message_count = intval($Forum->message_count);    
-        $Forum->updateAfterThreadCreate($node_id, ++$Forum->discussion_count, ++$Forum->message_count, $post_id, $post_date, $thread_title, $User);
+        $Forum->updateAfterThreadCreate(++$Forum->discussion_count, ++$Forum->message_count, $post_id, $post_date, $thread_title, $User);
     }
     
     function _createPost($thread_id, $post_date, $message, $User ){

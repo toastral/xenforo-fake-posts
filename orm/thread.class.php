@@ -90,7 +90,44 @@ class Thread extends DB{
         WHERE thread_id=".$this->thread_id.";";
 
         $this->query($q);
-    }    
+    }
+    
+    function getNodeIdByThreadId($thread_id){
+        $q = "SELECT node_id FROM ".$this->table." WHERE thread_id=".$thread_id.";";
+        $res = $this->query($q);
+        if(!$res->num_rows){
+            throw new Exception('Not found node_id by thread_id: '.$q);
+        }
+        $row = $res->fetch_assoc();
+        return $row['node_id'];
+    }
+        
+    function incrementReplyCount($thread_id){
+        $q = "SELECT reply_count FROM ".$this->table." WHERE thread_id=".$thread_id.";";
+        $res = $this->query($q);
+        if($res->num_rows){
+            $row = $res->fetch_assoc();
+            $reply_count = intval($row['reply_count']);
+            $reply_count++;
+            $q = "UPDATE ".$this->table." SET reply_count=".$reply_count." WHERE thread_id=".$thread_id.";";
+            $this->query($q);
+        }else{
+            throw new Exception('Not found reply_count by thread_id: '.$q);
+        }
+    }
+    
+    function getTitleByThreadId($thread_id){
+        $q = "SELECT title FROM ".$this->table." WHERE thread_id=".$thread_id.";";
+        $res = $this->query($q);
+        if(!$res->num_rows){
+            throw new Exception('Not found title by thread_id: '.$q);
+        }
+        $row = $res->fetch_assoc();
+        return $row['title'];
+    }
+    
+    
+    
 }
 
 

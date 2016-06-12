@@ -22,7 +22,7 @@ class ThreadUserPost extends DB{
         $this->query($q);
     }
     
-    function incrementCount($thread_id, $user_id){
+    function incrementPostCount($thread_id, $user_id){
         $q = "SELECT post_count FROM ".$this->table." WHERE thread_id=".$thread_id." AND user_id=".$user_id.";";
         $res = $this->query($q);
         if($res->num_rows){

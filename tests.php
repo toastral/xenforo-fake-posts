@@ -4,6 +4,7 @@ $scanned_directory = array_diff(scandir('orm'), array('..', '.'));
 while($file = array_pop($scanned_directory)) include 'orm/'.$file;
 include 'fakeuser.class.php';
 include 'fakethread.class.php';
+include 'fakepost.class.php';
 
 /*
 $User = new User();
@@ -56,6 +57,7 @@ $User->fetch();
 print_r($User);
 */
 
+
 $FakeThread = new FakeThread();
 $FakeThread->node_id = 5;
 $FakeThread->user_id = 4;
@@ -64,6 +66,17 @@ $FakeThread->message = "Hey! I am bot! ".time();
 $FakeThread->post_date = time();
 //$FakeThread->create();
 print_r($FakeThread->thread_id);
+
+$FakePost = new FakePost();
+$FakePost->thread_id = 43;
+$FakePost->user_id = 2;
+$FakePost->message = "robots are going ".time();
+$FakePost->post_date = time();
+//$FakePost->create();
+
+$Forum = new Forum();
+$a_forums = $Forum->getNodeIdAndTitle();
+print_r($a_forums);
 
 
 
