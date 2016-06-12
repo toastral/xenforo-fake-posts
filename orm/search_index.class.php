@@ -11,8 +11,6 @@ class SearchIndex extends DB{
     public $discussion_id='0';
   
     public $table = 'xf_search_index';
-
-
     
     function __construct(){
         parent::__construct();

@@ -62,8 +62,9 @@ $FakeThread->user_id = 4;
 $FakeThread->title = "THis is bot message title ".time();
 $FakeThread->message = "Hey! I am bot! ".time();
 $FakeThread->post_date = time();
-$FakeThread->create();
+//$FakeThread->create();
 print_r($FakeThread->thread_id);
+
 
 
 

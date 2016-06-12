@@ -27,6 +27,9 @@ class FakeThread{
         $this->_insertPostToSearchIndex($first_post_id, $this->title, $this->message, $this->user_id, $this->post_date, $this->thread_id, $this->node_id);
         $this->_insertThreadToSearchIndex($this->title, $this->user_id, $this->post_date, $this->thread_id, $this->node_id);
         
+        $ThreadUserPost = new ThreadUserPost();
+        $ThreadUserPost->incrementCount($this->thread_id, $this->user_id);
+        
     }
     
     function _insertPostToSearchIndex($post_id, $title, $message, $user_id, $post_date, $thread_id, $node_id){
