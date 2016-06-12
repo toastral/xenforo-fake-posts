@@ -64,7 +64,6 @@ class FakePost{
         $Forum->fetch();
         $Forum->message_count = intval($Forum->message_count);
         $Forum->updateAfterPostCreate(++$Forum->message_count, $post_id, $post_date, $thread_title, $User);
-    }
- 
+    } 
 }
 ?>

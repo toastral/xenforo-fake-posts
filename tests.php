@@ -2,100 +2,55 @@
 include 'db.class.php';
 $scanned_directory = array_diff(scandir('orm'), array('..', '.'));
 while($file = array_pop($scanned_directory)) include 'orm/'.$file;
+
+$scanned_directory = array_diff(scandir('lib'), array('..', '.'));
+while($file = array_pop($scanned_directory)) include 'lib/'.$file;
+
 include 'fakeuser.class.php';
 include 'fakethread.class.php';
 include 'fakepost.class.php';
 
-/*
-$User = new User();
-$User->username = 'test1';
-$User->validateUserName();
-$User->email = $User->username.'@google.com';
-//$User->insert();
-$User->user_id = 14;
 
-$UserAuthenticate = new UserAuthenticate();
-$UserAuthenticate->user_id = $User->user_id;
-//$UserAuthenticate->insert();
-
-$UserGroupRelation = new UserGroupRelation();
-$UserGroupRelation->user_id = $User->user_id;
-//$UserGroupRelation->insert();
-
-$UserOption = new UserOption();
-$UserOption->user_id = $User->user_id;
-//$UserOption->insert();
-
-$UserPrivacy = new UserPrivacy();
-$UserPrivacy->user_id = $User->user_id;
-//$UserPrivacy->insert();
-
-$UserProfile = new UserProfile();
-$UserProfile->location = 'Gonduras';
-$UserProfile->signature = 'Smile now - cry later';
-$UserProfile->user_id = $User->user_id;
-$UserProfile->insert();
-*/
-
-/*
-$FakeUser = new FakeUser();
-$FakeUser->username = 'heyhey';
-$FakeUser->location = 'Tagangog';
-$FakeUser->signature = 'I ll be back';
-$FakeUser->create();
-*/
+function genword($len=6){
+    $a = array('q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m');
+    $word = '';
+    for($i=0;$i<=$len;$i++) $word.=$a[rand(0,count($a))];    
+    return $word;
+}
 
 
-//$User = new User();
-//$User->user_id = 4;
-//$User->incrementTrophyPoints();
-
-/*
-$User = new User();
-$User->user_id = 4;
-$User->fetch();
-print_r($User);
-*/
-
-
-$FakeThread = new FakeThread();
-$FakeThread->node_id = 5;
-$FakeThread->user_id = 4;
-$FakeThread->title = "THis is bot message title ".time();
-$FakeThread->message = "Hey! I am bot! ".time();
-$FakeThread->post_date = time();
-//$FakeThread->create();
-print_r($FakeThread->thread_id);
-
-$FakePost = new FakePost();
-$FakePost->thread_id = 43;
-$FakePost->user_id = 2;
-$FakePost->message = "robots are going ".time();
-$FakePost->post_date = time();
-//$FakePost->create();
 
 $Forum = new Forum();
 $a_forums = $Forum->getNodeIdAndTitle();
-print_r($a_forums);
+$node_id = $a_forums[1]['node_id'];
 
+$FakeUser = new FakeUser();
+$FakeUser->username   = genword();
+$FakeUser->location   = genword();
+$FakeUser->signature  = genword(10).' '.genword(10).' '.genword(10);
+$user_id = $FakeUser->create();
 
+$FakeUser->src_avatar = 'pikachu2.jpg';
+$FakeUser->loadAvatar();
 
+$FakeThread = new FakeThread();
+$FakeThread->node_id = $node_id;
+$FakeThread->user_id = $user_id;
+$FakeThread->title = "THis is bot message title ".time();
+$FakeThread->message = "Hey! I am bot! ".time();
+$FakeThread->post_date = time();
+$FakeThread->create();
+$thread_id = $FakeThread->thread_id;
 
-//echo sprintf("%02X",255);
-//echo sprintf("%04X",65535);
-//echo sprintf("%04X",rand(0,65535));
-/*
-include 'orm/user_option.class.php';
-include 'orm/user.class.php';
-include 'orm/user_authenticate.class.php';
-include 'orm/user_profile.class.php';
-include 'orm/fakeuser.class.php';
+print_r($FakeThread->thread_id);
 
-$fakeuser = new fakeuser();
-$fakeuser->username = 'user333';
-$fakeuser->city = 'Oslo';
-$fakeuser->signature = "I'll be back";
-$fakeuser->src_avatar = 'avatar.jpg';
-$user_id = $fakeuser->create();
-*/
+$FakePost = new FakePost();
+$FakePost->thread_id = $thread_id;
+$FakePost->user_id = $user_id;
+$FakePost->message = "robots are going ".time();
+$FakePost->post_date = time();
+$FakePost->create();
+
+print_r($FakePost->post_id);
+
 ?>

@@ -95,10 +95,5 @@ class FakeThread{
         $Thread->insert();
         return $Thread->thread_id;
     }
-    
-    function setAvatar(){
-        
-    }
-
 }
 ?>

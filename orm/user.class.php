@@ -122,6 +122,12 @@ class User extends DB{
         }else{
             throw new Exception('Not found message_count by user_id: '.$q); 
         }
-    }    
+    }
+    
+    function updateAvatartFlages(){
+        $q = "UPDATE ".$this->table." SET avatar_date=".time().", avatar_width='200', avatar_height='200' WHERE user_id=".$this->user_id.";";
+print_r($q);
+        $this->query($q);
+    }
 }
 ?>
