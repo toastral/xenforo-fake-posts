@@ -3,6 +3,7 @@ include 'db.class.php';
 $scanned_directory = array_diff(scandir('orm'), array('..', '.'));
 while($file = array_pop($scanned_directory)) include 'orm/'.$file;
 include 'fakeuser.class.php';
+include 'fakethread.class.php';
 
 /*
 $User = new User();
@@ -48,11 +49,21 @@ $FakeUser->create();
 //$User->user_id = 4;
 //$User->incrementTrophyPoints();
 
-
+/*
 $User = new User();
 $User->user_id = 4;
 $User->fetch();
 print_r($User);
+*/
+
+$FakeThread = new FakeThread();
+$FakeThread->node_id = 5;
+$FakeThread->user_id = 4;
+$FakeThread->title = "THis is bot message title ".time();
+$FakeThread->message = "Hey! I am bot! ".time();
+$FakeThread->post_date = time();
+$FakeThread->create();
+print_r($FakeThread->thread_id);
 
 
 

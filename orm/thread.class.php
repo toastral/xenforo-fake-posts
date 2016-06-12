@@ -1,32 +1,6 @@
 <?php
 class Thread extends DB{
-/*
-$node_id = 5;
-$user_id = 4;
-$post_date = time();
-$first_post_id = ?;
-
-$Thread = new Thread();
-$Thread->node_id = $node_id;
-$Thread->title = 'This is second theme';
-$Thread->user_id = $user_id;
-$User = new User();
-$User->user_id = $user_id;
-$User->fetch();
-
-$Thread->username           = $User->username;
-$Thread->post_date          = $post_date;
-$Thread->first_post_id      = $first_post_id;
-$Thread->last_post_date     = $post_date;
-$Thread->last_post_id       = $first_post_id;
-$Thread->last_post_user_id  = $user_id;
-$Thread->last_post_username = $User->username;
-
-INSERT INTO `xf_thread` VALUES (1,5,'This is first theme',0,0,2,'user1',1465551343,0,'visible',1,'',
-1,0,1465551343,
-1,2,'user1',0,'a:0:{}');
-*/
-
+    
     public $thread_id; // int(10) unsigned NOT NULL AUTO_INCREMENT,
     public $node_id; // int(10) unsigned NOT NULL,  --- forum_id
     public $title; // varchar(150) NOT NULL,
@@ -76,7 +50,7 @@ INSERT INTO `xf_thread` VALUES (1,5,'This is first theme',0,0,2,'user1',14655513
             last_post_username,
             prefix_id,
             tags
-        ) VALUES (%d,'%s',%d,%d,%d,'%s',%d,%d,'%s',%d,'%s',%d,%d,%d,%d,%d,'%s',%d,%s);",	
+        ) VALUES (%d,'%s',%d,%d,%d,'%s',%d,%d,'%s',%d,'%s',%d,%d,%d,%d,%d,'%s',%d,'%s');",	
             $this->node_id,
             $this->title,
             $this->reply_count,
@@ -101,6 +75,22 @@ INSERT INTO `xf_thread` VALUES (1,5,'This is first theme',0,0,2,'user1',14655513
         $this->query($q);
         $this->thread_id = mysqli_insert_id($this->db);
     }
+    
+    function updateFirstPostId($first_post_id){
+        $q = "UPDATE ".$this->table." SET first_post_id=".$first_post_id." 
+        WHERE thread_id=".$this->thread_id.";";
+        $this->query($q);
+    }
+    function updateLastPostId($last_post_id, $last_post_date, $User){
+        $q = "UPDATE ".$this->table." SET 
+        last_post_id = ".$last_post_id.", 
+        last_post_date = ".$last_post_date.", 
+        last_post_user_id = ".$User->user_id.", 
+        last_post_username = '".$User->username."' 
+        WHERE thread_id=".$this->thread_id.";";
+
+        $this->query($q);
+    }    
 }
 
 

@@ -11,7 +11,7 @@ class Post extends DB{
     public $attach_count='0';
     public $position; // int(10) unsigned NOT NULL,
     public $likes='0';
-    public $like_users; // blob NOT NULL,
+    public $like_users='a:0:{}'; // blob NOT NULL,
     public $warning_id='0';
     public $warning_message='';
     public $last_edit_date='0';
@@ -20,8 +20,6 @@ class Post extends DB{
 
     public $table = 'xf_post';
     
-//(1,1,2,'user1',1465551343,'This is content of first theme. [B]This is content of first theme[/B].\nThis is content of first theme.',4,'visible',0,0,0,'a:0:{}',0,'',0,0,0);
-
     function __construct(){
         parent::__construct();
     }
@@ -43,7 +41,7 @@ class Post extends DB{
             last_edit_date,
             last_edit_user_id,
             edit_count
-        ) VALUES (%d,%d,'%s',%d,'%s',%d,'%s',%d,%d,%d,%s,%d,'%s',%d,%d,%d);",	
+        ) VALUES (%d,%d,'%s',%d,'%s',%d,'%s',%d,%d,%d,'%s',%d,'%s',%d,%d,%d);",	
             $this->thread_id,
             $this->user_id,
             $this->username,
@@ -64,6 +62,17 @@ class Post extends DB{
         $this->query($q);
         $this->post_id = mysqli_insert_id($this->db);
     }
+    function processNextPositionVal($thread_id){
+        $position = $this->getCountPostForThread($thread_id);
+        return $position;
+    }
+    
+    function getCountPostForThread($thread_id){
+        $q = "SELECT COUNT(thread_id) c_thread FROM ".$this->table." WHERE thread_id=".$thread_id.";";
+        $res = $this->query($q);
+        $row = $res->fetch_assoc();
+        return intval($row['c_thread']);
+    }    
     
 }
 ?>
