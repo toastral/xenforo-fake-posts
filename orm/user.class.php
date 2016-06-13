@@ -75,8 +75,7 @@ class User extends DB{
         $res = $this->query($q);
         $row = $res->fetch_assoc();
         if(intval($row['c'])>0){
-            $this->username = $this->username.rand(1,100);
-            $this->validateUserName();
+            $this->username = $this->username.time().rand(100,999);
         }
     }
     function incrementTrophyPoints($points=1){
@@ -126,8 +125,21 @@ class User extends DB{
     
     function updateAvatartFlages(){
         $q = "UPDATE ".$this->table." SET avatar_date=".time().", avatar_width='200', avatar_height='200' WHERE user_id=".$this->user_id.";";
-print_r($q);
         $this->query($q);
     }
+
+	function getBotIds(){
+        $q = "SELECT user_id FROM ".$this->table." WHERE email LIKE '%@mail.rrr';";
+        $res = $this->query($q);
+		$a_ids = array();
+        if($res->num_rows){
+            while($row = $res->fetch_assoc()){
+				$a_ids[] = $row['user_id'];				
+			}
+			return $a_ids;
+        }else{
+            throw new Exception('Not found bots: '.$q); 
+        }
+	}
 }
 ?>
