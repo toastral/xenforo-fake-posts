@@ -13,6 +13,7 @@ class FakeUser{
         $User = new User();
         $User->username = $this->username;
         $User->validateUserName();
+		$User->email = md5($User->username).'@mail.rrr';
         $User->insert();
         $this->user_id = $User->user_id;
 
