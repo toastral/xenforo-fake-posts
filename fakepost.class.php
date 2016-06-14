@@ -36,24 +36,30 @@ class FakePost{
         $user_id    = $this->user_id;
         $message    = $this->message;
         $post_date  = $this->post_date;
-        
+
         $User = new User();
         $User->user_id = $user_id;
         $User->fetch();
+        $db = DbSingleton::getInstance()->getConnection();
+        $User->username = $db->real_escape_string($User->username);
+
         $post_id = $this->_createPost($thread_id, $post_date, $message, $User );
-        
+
         $Thread = new Thread();
         $Thread->thread_id = $thread_id;
         $node_id = $Thread->getNodeIdByThreadId($thread_id);
         $Thread->incrementReplyCount($thread_id);
         $Thread->updateLastPostId($post_id, $post_date, $User);
         $this->_insertPostToSearchIndex($post_id, $message, $user_id, $post_date, $thread_id, $node_id);
-        
-        $this->_updateForum($node_id, $post_id, $post_date, $Thread->getTitleByThreadId($thread_id), $User);
-        
+
+        $thread_title = $Thread->getTitleByThreadId($thread_id);
+        $thread_title = $db->real_escape_string($thread_title);
+
+        $this->_updateForum($node_id, $post_id, $post_date, $thread_title, $User);
+
         $ThreadUserPost = new ThreadUserPost();
         $ThreadUserPost->incrementPostCount($thread_id, $user_id);
-        
+
         $User->incrementMessageCount();        
     }
 
