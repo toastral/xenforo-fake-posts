@@ -46,7 +46,8 @@ class FakeUser{
         $id = $this->user_id;
         
         $new_avatar = $this->path_to_xenforo_avatars;
-        $ext = strtolower( pathinfo ( $this->src_avatar , PATHINFO_EXTENSION) );
+        //$ext = strtolower( pathinfo ( $this->src_avatar , PATHINFO_EXTENSION) );
+        $ext = 'jpg';
         $this->createThumb($this->src_avatar, $new_avatar.'/l/0/'.$id.'.'.$ext,  '200', '200');
         $this->createThumb($this->src_avatar, $new_avatar.'/m/0/'.$id.'.'.$ext,  '96', '96');
         $this->createThumb($this->src_avatar, $new_avatar.'/s/0/'.$id.'.'.$ext,  '48', '48');
@@ -64,6 +65,20 @@ class FakeUser{
             echo 'Error: ' . $e->getMessage();
         }	
     }
+	
+	function resolvePathForAvatars(){
+		$p = $this->path_to_xenforo_avatars;
+		if(!is_dir($p)){
+			mkdir($p);
+			if(!is_dir($p)) throw new Exception("Can't create dir: ".$p.", set permissions on 777 to data directory");
+		}
+		if(!is_dir($p."/l")) mkdir($p."/l");
+		if(!is_dir($p."/m")) mkdir($p."/m");
+		if(!is_dir($p."/s")) mkdir($p."/s");
 
+		if(!is_dir($p."/l/0")) mkdir($p."/l/0");
+		if(!is_dir($p."/m/0")) mkdir($p."/m/0");
+		if(!is_dir($p."/s/0")) mkdir($p."/s/0");
+	}
 }
 ?>

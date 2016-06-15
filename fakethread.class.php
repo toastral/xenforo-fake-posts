@@ -13,6 +13,9 @@ class FakeThread{
         $User = new User();
         $User->user_id = $this->user_id;
         $User->fetch();
+		
+        $db = DbSingleton::getInstance()->getConnection();
+        $User->username = $db->real_escape_string($User->username);
         
         $first_post_id = 0;
         $this->thread_id = $this->_createThread($this->node_id, $this->title, $this->post_date, $first_post_id, $User);
@@ -69,6 +72,7 @@ class FakeThread{
     }
     
     function _createPost($thread_id, $post_date, $message, $User ){
+		
         $Post = new Post();
         $Post->thread_id    = $thread_id;
         $Post->user_id      = $User->user_id;
