@@ -132,6 +132,17 @@ class Forum extends DB{
         $this->query($q);
     }
     
+    function updateLastPostValues($last_post_id, $last_post_date, $last_thread_title, $user_id, $username ){
+        $q = "UPDATE ".$this->table." SET
+        last_post_id = ".$last_post_id.", 
+        last_post_date = ".$last_post_date.", 
+        last_post_user_id = ".$user_id.", 
+        last_post_username = '".$username."', 
+        last_thread_title = '".$last_thread_title."'
+        WHERE node_id=".$this->node_id.";";     
+        $this->query($q);
+    }
+    
     function getNodeIdAndTitle(){
         $q = "SELECT node_id, title FROM xf_node WHERE node_type_id=0x466F72756D ;";
         $res = $this->query($q);
